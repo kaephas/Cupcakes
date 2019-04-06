@@ -20,7 +20,33 @@ $flavors = array(
     "lemon" => "Lemon Drop",
     "tiramisu" => "Tiramisu"
 );
+
+if($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $errors = [];
+    $choices =[];
+    // validate and store errors
+
+    // display complete message
+}
 ?>
 
+<form action="index.php">
+    <label for="name">Your name:</label>
+    <input id="name" type="text" placeholder="Please input your name">
+    <p>Cupcake flavors:</p>
+    <?php
+    foreach($flavors as $name => $flavor) {
+
+        echo '<input type="checkbox" name ="flavors[]" id ="'. $name. '" value="'. $name. '"';
+        if(isset($_POST['flavors']) && in_array($name, $_POST['flavors'])) {
+            echo ' checked';
+        }
+        echo '>';
+        echo '<label for="'. $name . '">'. $flavor . '</label ><br>';
+    }
+    ?>
+    <br>
+    <input type="submit" value="Order">
+</form>
 </body>
 </html>
