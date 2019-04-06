@@ -23,16 +23,40 @@ $flavors = array(
 
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $errors = [];
-    $choices =[];
     // validate and store errors
-
+    if(!isset($_POST['name']) || $_POST['name'] == "") {
+        $errors[] = "Please enter your name.";
+    } else {
+        $name = trim($_POST['name']);
+    }
+    echo 'flavors count: ' . count($_POST['flavors']);
+    if(!isset($_POST['flavors']) || count($_POST['flavors']) < 1) {
+        $errors[] = "Please select at least 1 flavor";
+    } else {
+        foreach($_POST['flavors'] as $flav) {
+            if(!array_key_exists($flav, $flavors)) {
+                $errors[] = "Somehow there's a weird flavor in here. Please try again.";
+            }
+        }
+    }
     // display complete message
+    var_dump($errors);
+    if(empty($errors)) {
+        // good job
+        echo 'good job';
+        exit();
+    } else {
+        echo 'Errors: <br>';
+        foreach($errors as $error) {
+            echo "<p>$error</p>";
+        }
+    }
 }
 ?>
 
-<form action="index.php">
+<form action="index.php" method="post">
     <label for="name">Your name:</label>
-    <input id="name" type="text" placeholder="Please input your name"
+    <input id="name" name="name" type="text" placeholder="Please input your name"
            value="<?php if(isset($_POST['name'])) echo ($_POST['name']); ?>">
     <p>Cupcake flavors:</p>
     <?php
@@ -47,7 +71,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
     ?>
     <br>
-    <input type="submit" value="Order">
+    <input type="submit" name="submit" value="Order">
 </form>
 </body>
 </html>
