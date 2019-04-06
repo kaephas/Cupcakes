@@ -29,7 +29,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         $name = trim($_POST['name']);
     }
-    echo 'flavors count: ' . count($_POST['flavors']);
+
     if(!isset($_POST['flavors']) || count($_POST['flavors']) < 1) {
         $errors[] = "Please select at least 1 flavor";
     } else {
@@ -39,13 +39,19 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
         }
     }
-    // display complete message
-    var_dump($errors);
+    // display success or error message
     if(empty($errors)) {
-        // good job
-        echo 'good job';
+        // order successful
+        echo "<p>Thank you, $name, for your order!</p>";
+        echo "<p>Order Summary:</p>";
+        echo "<ul>";
+        foreach($_POST['flavors'] as $cupcake) {
+            echo "<li>$flavors[$cupcake]</li>";
+        }
+        echo "</ul>";
         exit();
     } else {
+        // errors found
         echo 'Errors: <br>';
         foreach($errors as $error) {
             echo "<p>$error</p>";
@@ -53,25 +59,25 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 ?>
+<!-- form -->
+    <form action="index.php" method="post">
+        <label for="name">Your name:</label>
+        <input id="name" name="name" type="text" placeholder="Please input your name"
+               value="<?php if(isset($_POST['name'])) echo ($_POST['name']); ?>">
+        <p>Cupcake flavors:</p>
+        <?php
+        foreach($flavors as $name => $flavor) {
 
-<form action="index.php" method="post">
-    <label for="name">Your name:</label>
-    <input id="name" name="name" type="text" placeholder="Please input your name"
-           value="<?php if(isset($_POST['name'])) echo ($_POST['name']); ?>">
-    <p>Cupcake flavors:</p>
-    <?php
-    foreach($flavors as $name => $flavor) {
-
-        echo '<input type="checkbox" name ="flavors[]" id ="'. $name. '" value="'. $name. '"';
-        if(isset($_POST['flavors']) && in_array($name, $_POST['flavors'])) {
-            echo ' checked';
+            echo '<input type="checkbox" name ="flavors[]" id ="'. $name. '" value="'. $name. '"';
+            if(isset($_POST['flavors']) && in_array($name, $_POST['flavors'])) {
+                echo ' checked';
+            }
+            echo '>';
+            echo '<label for="'. $name . '">'. $flavor . '</label ><br>';
         }
-        echo '>';
-        echo '<label for="'. $name . '">'. $flavor . '</label ><br>';
-    }
-    ?>
-    <br>
-    <input type="submit" name="submit" value="Order">
-</form>
+        ?>
+        <br>
+        <input type="submit" name="submit" value="Order">
+    </form>
 </body>
 </html>
