@@ -49,6 +49,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo "<li>$flavors[$cupcake]</li>";
         }
         echo "</ul>";
+        echo "<p>Order Total: $" . number_format((count($_POST['flavors']) * 3.50), 2) . "</p>";
         exit();
     } else {
         // errors found
