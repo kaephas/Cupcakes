@@ -32,7 +32,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <form action="index.php">
     <label for="name">Your name:</label>
-    <input id="name" type="text" placeholder="Please input your name">
+    <input id="name" type="text" placeholder="Please input your name"
+           value="<?php if(isset($_POST['name'])) echo ($_POST['name']); ?>">
     <p>Cupcake flavors:</p>
     <?php
     foreach($flavors as $name => $flavor) {
