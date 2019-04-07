@@ -1,3 +1,13 @@
+<!--
+
+Kaephas Kain
+4-6-2019
+http://kaephas.greenriverdev.com/IT328/Cupcakes/index.php
+
+Takes a cupcake "order" and prints the order and cost.
+
+
+-->
 <!doctype html>
 <html lang="en">
 <head>
@@ -11,6 +21,7 @@
 <h2>Cupcake Fundraiser</h2>
 
 <?php
+// associated cupcake array
 $flavors = array(
     "grasshopper" => "The Grasshopper",
     "maple" => "Whiskey Maple Bacon",
@@ -21,9 +32,10 @@ $flavors = array(
     "tiramisu" => "Tiramisu"
 );
 
+// after order button pushed
 if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $errors = [];
-    // validate and store errors
+    // validate entries and store errors
     if(!isset($_POST['name']) || $_POST['name'] == "") {
         $errors[] = "Please enter your name.";
     } else {
@@ -49,11 +61,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             echo "<li>$flavors[$cupcake]</li>";
         }
         echo "</ul>";
+        // number_format($var, 2) for 2 digits
         echo "<p>Order Total: $" . number_format((count($_POST['flavors']) * 3.50), 2) . "</p>";
         exit();
     } else {
         // errors found
-        echo 'Errors: <br>';
         foreach($errors as $error) {
             echo "<p>$error</p>";
         }
